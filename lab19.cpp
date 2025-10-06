@@ -20,13 +20,10 @@ private:
 
 public:
     Movie(const string& t) : title(t), head(nullptr) {}
-
-    ~Movie() {
-        clearReviews();
-    }
+    ~Movie() { clearReviews(); }
 
     void addReview(const string& comment) {
-        double rating = (rand() % 41 + 10) / 10.0; // random 1.0–5.0
+        double rating = (rand() % 41 + 10) / 10.0; // 1.0 – 5.0
         Review* newReview = new Review{rating, comment, head};
         head = newReview;
     }
@@ -46,7 +43,6 @@ public:
             total++;
             current = current->next;
         }
-
         if (total > 0) cout << "    > Average: " << (sum / total) << endl;
         else cout << "    > No reviews.\n";
         cout << endl;
@@ -79,12 +75,22 @@ int main() {
     }
     infile.close();
 
-    Movie m1("Inception");
-    for (int i = 0; i < 3; i++) {
-        string cmt = comments[rand() % comments.size()];
-        m1.addReview(cmt);
+    vector<Movie> movies;
+    movies.emplace_back("Inception");
+    movies.emplace_back("The Dark Knight");
+    movies.emplace_back("Interstellar");
+    movies.emplace_back("Oppenheimer");
+
+    for (auto& m : movies) {
+        for (int i = 0; i < 3; i++) {
+            string cmt = comments[rand() % comments.size()];
+            m.addReview(cmt);
+        }
     }
 
-    m1.printReviews();
+    for (auto& m : movies) {
+        m.printReviews();
+    }
+
     return 0;
 }
